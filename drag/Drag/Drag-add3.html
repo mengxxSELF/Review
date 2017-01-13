@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>drag 构造函数版</title>
+    <style>
+        *{padding:0;margin: 0;}
+        div{width: 100px;  border-radius: 100%;
+            height: 100px; position: fixed;left: 0;top: 0; background: skyblue;}
+    </style>
+</head>
+<body>
+<div></div>
+<script src="../event.js"></script>
+<script src="Drag-add3.js"></script>
+<script>
+    var oDiv =document.getElementsByTagName('div')[0];
+    var drag = new Drag({
+        ele:oDiv
+    });
+    // 开发者身份添加 自由落体
+    drag.stop();
+
+</script>
+</body>
+</html>
