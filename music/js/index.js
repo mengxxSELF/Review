@@ -11,9 +11,9 @@
 
 
 /* 设置rem 求出根字节
-* 设计稿640px 字体 100px 相当于1rem
+ * 设计稿640px 字体 100px 相当于1rem
  * 屏幕 clientWidth  ?
-* */
+ * */
 ~function(){
     var designW = 640,
         screenW= $(window).width(),
@@ -28,8 +28,10 @@
 /* 核心JS代码 */
 
 ~function () {
-    var data =null,
-        oAudio=$('audio')[0];
+    var data =null,// 数据
+        oAudio=$('audio')[0],
+        musicTime=null,//音乐总时间
+        timer=null; //定时器
 
     // 任务订阅  需要在拿到数据之后进行如下操作
     var musicBack = $.Callbacks();
@@ -46,11 +48,56 @@
     musicBack.add(function () {
         $('audio').on('canplay', function () {
             oAudio.play();
+            // 按钮设置
+            $('.play').hide().next().show();
+            $('.btn').click(function () {
+                if(oAudio.paused){
+                    timer =setInterval(changeTime,1000);
+                    oAudio.play();
+                    $('.play').hide().next().show();
+                }else{
+                    clearInterval(timer);
+                    oAudio.pause();
+                    $('.play').show().next().hide();
+                };
+            });
         });
     });
+    // 时间函数
+    function timing(time){
+        var m= Math.floor(time/60);
+        var n= Math.floor(time%60);
+        m= m<10?'0'+m:m;
+        n= n<10?'0'+n:n;
+        return m+':'+n;
+    }
 
-
-
+    // 时间轴
+    musicBack.add(function () {
+        $('audio').on('canplay', function () {
+            musicTime= oAudio.duration; // 总时间
+            $('.duration').html(timing(musicTime));
+            //开启定时器 更新当前播放时间
+            timer =setInterval(changeTime,1000);
+        });
+    });
+    // 时间轴变化
+    function changeTime(){
+        var  currentTime = oAudio.currentTime;
+        $('.current').html(timing(currentTime));
+        // 处理时间轴宽度
+        $('.timeLine span').css('width',currentTime/musicTime*100+'%');
+        // 处理歌词移动
+        $('.lyric p').filter('[data-time="'+timing(currentTime)+'"]').addClass('on').siblings().removeClass('on');
+        $('.lyric').animate('top',-$('.lyric p.on').index()*parseInt($('.lyric p').css('line-height')));
+    };
+    //处理播放完毕
+    musicBack.add(function () {
+        $('audio').on('ended', function () {
+            clearInterval(timer);
+            $('.play').show().next().hide();
+        });
+    });
 
     // ajax获取数据
     $.get('lyric.json', function (res) {
@@ -88,15 +135,3 @@
     },'json')
 }();
 
-
-
-
-
-
-
-
-
-
-~function(){
-
-}();
