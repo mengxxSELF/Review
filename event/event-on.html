@@ -11,7 +11,23 @@
     </style>
 </head>
 <body>
-<div></div>
+<div>kldlksdlk</div>
 <script src="event-on.js"></script>
+<script>
+    var oDiv =document.getElementsByTagName('div')[0];
+    on(oDiv,'mousedown',fn1);
+    on(oDiv,'mousedown',fn2);
+    on(oDiv,'mousedown',fn3);
+    off(oDiv,'mousedown',fn1);
+    function fn1() {
+        console.log(this.innerHTML)
+    }
+    function fn2() {
+        console.log(' i am fn2')
+    }
+    function fn3() {
+        console.log(' i am fn3333')
+    }
+</script>
 </body>
 </html>
