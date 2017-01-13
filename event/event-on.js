@@ -5,17 +5,19 @@ function on(obj,type,fn){
     if(obj.addEventListener){
         obj.addEventListener(type,fn,false);
     }else{
-        if(obj[type+'onEvent']){
+        if(!obj[type+'onEvent']){
             obj[type+'onEvent']=[];
+            // 系统事件池只创建一次
+            obj.attachEvent('on'+type, function () {
+                run.call(obj);
+            })
         }
         var aE =obj[type+'onEvent'];
         for(var i=0;i<aE.length;i++){
             if(aE[i]==fn) return;
         }
         aE.push(fn);
-        obj.attachEvent('on'+type, function () {
-            run.call(obj);
-        })
+
     }
 };
 //顺序执行函数
