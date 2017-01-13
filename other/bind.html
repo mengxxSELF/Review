@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bind</title>
+</head>
+<body>
+
+<script src="bind.js"></script>
+<script>
+    var obj={}
+    function test(n,m){
+        console.log(this,n,m);
+    }
+    var end = test.myBind(obj,1,2);
+    end();
+</script>
+</body>
+</html>
