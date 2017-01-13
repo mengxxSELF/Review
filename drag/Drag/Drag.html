@@ -12,13 +12,45 @@
 <body>
 <div></div>
 <script src="../event.js"></script>
-<script src="Drag.js"></script>
+<!--<script src="Drag.js"></script>-->
+<!--<script src="Drag-add1.js"></script>-->
+<script src="Drag-add2.js"></script>
 <script>
     var oDiv =document.getElementsByTagName('div')[0];
-
-    new Drag({
+    var drag = new Drag({
         ele:oDiv
+    });
+    drag.on('mousemove', function () {
+        this.ele.style.background='#ccc'
     })
+    drag.on('mouseup', function () {
+        this.ele.style.background='red'
+    })
+
+    // 用户身份添加边界限制
+    drag.on('mousemove', function (e) {
+        border.call(this,{
+            maxl:200, maxT:0,minL:20,maxB :200
+        },e);
+    });
+    function border(opt,e) {
+        var maxl= opt.maxl, maxT= opt.maxT,minL=opt.minL,maxB = opt.maxB;
+        var boxL =  e.clientX-this.x+this.l;
+        var boxT = e.clientY-this.y+this.t;
+
+        if(boxL>=maxl){
+            boxL=maxl;
+        }else if(boxL<=minL){
+            boxL=minL;
+        }
+        if(boxT>=maxB){
+            boxT=maxB;
+        }else if(boxT<=maxT){
+            boxT=maxT;
+        }
+        oDiv.style.left =boxL+'px';
+        oDiv.style.top = boxT+'px';
+    }
 </script>
 </body>
 </html>
