@@ -28,13 +28,63 @@
 /* 核心JS代码 */
 
 ~function () {
-    var data =null;
+    var data =null,
+        oAudio=$('audio')[0];
+
+    // 任务订阅  需要在拿到数据之后进行如下操作
+    var musicBack = $.Callbacks();
+    // 渲染页面
+    musicBack.add(function (data) {
+        var str='';
+        for(var i=0;i<data.length;i++){
+            var cur = data[i];
+            str+='<p data-time="'+cur.minute+':'+cur.second+'">'+cur.content+'</p>';
+        };
+        $('.lyric').html(str);
+    });
+    // 关于歌曲播放的设置
+    musicBack.add(function () {
+        $('audio').on('canplay', function () {
+            oAudio.play();
+        });
+    });
+
+
+
+
     // ajax获取数据
     $.get('lyric.json', function (res) {
         data=res.lyric;
         // 利用正则变化格式
-        
-        console.log(data)
+        data = data.replace(/&#(\d{2});/g, function ($0,$1) {
+            switch (Number($1)){
+                case 32:
+                    $0=' ';
+                    break;
+                case 40:
+                    $0=')';
+                    break;
+                case 41:
+                    $0='(';
+                    break;
+                case 45:
+                    $0='-';
+                    break;
+            }
+            return $0;
+        });
+        // 处理时间
+        var reg = /\[(\d+)&#58;(\d+)&#46;(?:\d+)\]([^&#]+)(?:&#\d+)/g;
+        var dataAry=[];
+        data.replace(reg, function ($0,$1,$2,$3) {
+            dataAry.push({
+                minute:$1,
+                second:$2,
+                content:$3
+            })
+        });
+        // 发布任务
+        musicBack.fire(dataAry); // 传递参数
     },'json')
 }();
 
