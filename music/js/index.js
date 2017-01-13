@@ -95,10 +95,18 @@
     musicBack.add(function () {
         $('audio').on('ended', function () {
             clearInterval(timer);
+            $('.lyric').css('top',0);
+            $('.timeLine span').css('width',0);
             $('.play').show().next().hide();
         });
     });
 
+    //收藏按钮点击变色
+    musicBack.add(function () {
+       $('.like').click(function () {
+          $(this).toggleClass('on');
+       });
+    });
     // ajax获取数据
     $.get('lyric.json', function (res) {
         data=res.lyric;
