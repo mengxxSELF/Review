@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    var obj={
+        name:'obj',
+        dose:function(){
+            this.name='dose';
+            return function(){
+                return this.name;
+            }
+        }
+    }
+    console.log(obj.dose().call(this)); // 将window 改为obj.dose() 中this 并执行函数 undefined
+
+
+    function func1(){
+        var n=99;
+        nAdd=function(){
+            this.n+=1;
+            console.log(this.n);
+        }
+        function func2(){
+            console.log(n);
+        }
+        return func2;
+    }
+    var result=func1();
+    result();// 99
+    nAdd();//this -> window NaN
+    result();// 99
+
+    function Foo(){
+        getName=function(){alert(1)};
+        return this;
+    }
+    Foo.getName=function (){alert(2)};
+    Foo.prototype.getName=function(){alert(3)};
+    var getName=function(){alert(4)};
+    function getName(){alert(5)}
+    Foo.getName();
+    getName();
+    Foo().getName();
+    getName();
+    new Foo.getName();
+    new Foo().getName();
+
+</script>
+</body>
+</html>

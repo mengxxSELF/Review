@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<script>
+  //  foo();
+    function foo(){
+        var str=reverse('a,b,c,d,e,f,g');
+        alert(str)
+        if(str=='g,f,e,d,c,b,a'){
+            alert('成功')
+        }else {
+            alert('失败')
+        }
+    }
+    function reverse(str){
+        //在此处加入代码，完成字符串翻转功能
+        return str.split(',').reverse().join(',');
+    }
+
+  function printing(){
+      console.log(1);
+      setTimeout(function(){
+          console.log(2)
+      },1000)
+      setTimeout(function(){
+          console.log(3)
+      },0)
+      console.log(4)
+  }
+ // printing();// 1 4 32
+
+
+  var fullname='John Doe';
+  var obj={
+      fullname:'Colin lhrig',
+      prop:{
+          fullname:'Aurelio De Rosa',
+          getFullname:function(){
+              return this.fullname;
+          }
+      }
+  }
+  console.log(obj.prop.getFullname()) // Aurelio De Rosa
+  var test=obj.prop.getFullname; //
+  console.log(test());// John Doe
+
+//  window.name='ssss'
+  var obj={
+      name:'obj',
+      dose:function(){
+          this.name='dose';
+          return function(){
+              return this.name;
+          }
+      }
+  }
+  console.log(obj.dose().call(this)); // 将window 改为obj.dose() 中this 并执行函数 undefined
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
