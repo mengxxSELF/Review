@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>事件库 bind unbind</title>
+    <title>事件库 五个方法</title>
     <style>
         *{padding:0;margin: 0;}
         div{width: 100px;  border-radius: 100%;
@@ -11,13 +11,13 @@
 </head>
 <body>
 <div>i am first</div>
-<script src="event-bind.js"></script>
+<script src="event-bind-on.js"></script>
 <script>
     var oDiv =document.getElementsByTagName('div')[0];
-    bind(oDiv,'mousedown',fn1);
-    bind(oDiv,'mousedown',fn2);
-    bind(oDiv,'mousedown',fn3);
-    unbind(oDiv,'mousedown',fn1);
+    on(oDiv,'mousedown',fn1);
+    on(oDiv,'mousedown',fn2);
+    on(oDiv,'mousedown',fn3);
+    off(oDiv,'mousedown',fn1);
     function fn1() {
         console.log(this.innerHTML)
     }
